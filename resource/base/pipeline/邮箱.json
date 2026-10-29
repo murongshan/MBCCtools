@@ -9,6 +9,7 @@
             "param": {}
         },
         "next": [
+            "邮箱为空",
             "邮箱入口",
             "[JumpBack]主菜单",
             "[JumpBack]返回按钮"
@@ -39,10 +40,31 @@
         },
         "post_delay": 1000,
         "next": [
+            "邮箱为空",
             "领取邮件",
             "[JumpBack]主菜单",
             "[JumpBack]返回按钮"
         ]
+    },
+    "邮箱为空": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "当前没有邮件",
+                "roi": [
+                    760,
+                    510,
+                    240,
+                    80
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "focus": {
+            "Node.Recognition.Succeeded": "邮箱为空，跳过领取"
+        }
     },
     "领取邮件": {
         "recognition": {

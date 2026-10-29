@@ -14,7 +14,10 @@
         "recognition": {
             "type": "TemplateMatch",
             "param": {
-                "template": "体力.png",
+                "template": [
+                    "体力.png",
+                    "体力_金色主题.png"
+                ],
                 "roi": [
                     77,
                     250,
@@ -41,7 +44,10 @@
         "recognition": {
             "type": "TemplateMatch",
             "param": {
-                "template": "体力2.png",
+                "template": [
+                    "体力2.png",
+                    "体力2_金色主题.png"
+                ],
                 "roi": [
                     77,
                     250,
@@ -51,6 +57,9 @@
             }
         },
         "post_delay": 1000,
+        "focus": {
+            "Node.Recognition.Succeeded": "当前无可领取的体力补给，跳过"
+        },
         "next": [
             "主菜单"
         ]
