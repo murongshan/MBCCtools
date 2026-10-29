@@ -1,4 +1,6 @@
 <!-- markdownlint-disable MD033 MD041 -->
+> 本分支为基于上游 v1.5.2 的官服 MuMu 开发快照，包含尚未完成验收的改动。当前功能、验证边界与只读检查方法见[开发状态](docs/开发状态.md)。
+
 <div align="center">
 
 <img alt="LOGO" src="https://github.com/quietlysnow/MBCCtools/blob/main/resource/base/image/logo.png" width="256" height="256" />

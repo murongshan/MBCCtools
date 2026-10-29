@@ -1,0 +1,401 @@
+{
+    "助手待办含活动": {
+        "timeout": 8000,
+        "next": [
+            "[JumpBack]活动大厅一键领取",
+            "助手待办"
+        ]
+    },
+    "活动大厅一键领取": {
+        "max_hit": 1,
+        "timeout": 8000,
+        "next": [
+            "活动大厅页面确认",
+            "活动大厅主页确认",
+            "[JumpBack]活动大厅退出锁屏",
+            "[JumpBack]活动大厅导航返回主页"
+        ],
+        "on_error": [
+            "活动大厅检查未确认"
+        ]
+    },
+    "活动大厅退出锁屏": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "点击解锁按钮退出锁定屏幕",
+                "roi": [940, 625, 260, 75]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": { "target": [1060, 600, 1, 1] }
+        },
+        "focus": {
+            "Node.Action.Succeeded": "退出锁定屏幕后检查活动大厅"
+        },
+        "max_hit": 1,
+        "post_delay": 2000
+    },
+    "活动大厅导航返回主页": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": "主菜单.png",
+                "roi": [11, 6, 320, 79],
+                "threshold": 0.85
+            }
+        },
+        "action": { "type": "Click" },
+        "focus": {
+            "Node.Action.Succeeded": "返回主页检查活动大厅提醒"
+        },
+        "max_hit": 1,
+        "post_wait_freezes": 500
+    },
+    "活动大厅主页确认": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "活动大厅",
+                "roi": [40, 150, 140, 120]
+            }
+        },
+        "action": { "type": "DoNothing" },
+        "timeout": 3500,
+        "next": [
+            "活动大厅主页黄点",
+            "活动大厅主页无黄点"
+        ],
+        "on_error": [
+            "活动大厅检查未确认"
+        ]
+    },
+    "活动大厅主页黄点": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": "黄点.png",
+                "roi": [140, 150, 40, 40],
+                "threshold": 0.85
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": { "target": [100, 220, 1, 1] }
+        },
+        "focus": {
+            "Node.Action.Succeeded": "进入有提醒的活动大厅"
+        },
+        "max_hit": 1,
+        "post_delay": 1500,
+        "timeout": 6000,
+        "next": [
+            "活动大厅页面确认"
+        ],
+        "on_error": [
+            "活动大厅检查未确认"
+        ]
+    },
+    "活动大厅主页无黄点": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": "黄点.png",
+                "roi": [140, 150, 40, 40],
+                "threshold": 0.85
+            }
+        },
+        "inverse": true,
+        "action": { "type": "DoNothing" },
+        "focus": {
+            "Node.Recognition.Succeeded": "活动大厅当前未检测到黄点提醒"
+        }
+    },
+    "活动大厅页面确认": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "极限挑战",
+                "roi": [50, 115, 165, 90]
+            }
+        },
+        "action": { "type": "DoNothing" },
+        "timeout": 3500,
+        "next": [
+            "活动大厅检查可见活动"
+        ],
+        "on_error": [
+            "活动大厅领奖结果未确认"
+        ]
+    },
+    "活动大厅检查可见活动": {
+        "timeout": 6000,
+        "next": [
+            "活动大厅第一个活动提醒",
+            "活动大厅第二个活动提醒",
+            "活动大厅第三个活动提醒",
+            "活动大厅第四个活动提醒",
+            "活动大厅第五个活动提醒",
+            "活动大厅第六个活动提醒",
+            "活动大厅第七个活动提醒",
+            "活动大厅返回主页"
+        ],
+        "on_error": [
+            "活动大厅检查未确认"
+        ]
+    },
+    "活动大厅第一个活动提醒": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": { "template": "黄点.png", "roi": [23, 110, 43, 85], "threshold": 0.8 }
+        },
+        "action": { "type": "Click" },
+        "focus": { "Node.Action.Succeeded": "查看第一个可见活动的奖励提醒" },
+        "max_hit": 1,
+        "post_delay": 1500,
+        "timeout": 3500,
+        "next": ["活动大厅可领奖确认"],
+        "on_error": ["活动大厅跳过当前活动"]
+    },
+    "活动大厅第二个活动提醒": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": { "template": "黄点.png", "roi": [23, 200, 43, 85], "threshold": 0.8 }
+        },
+        "action": { "type": "Click" },
+        "focus": { "Node.Action.Succeeded": "查看第二个可见活动的奖励提醒" },
+        "max_hit": 1,
+        "post_delay": 1500,
+        "timeout": 3500,
+        "next": ["活动大厅可领奖确认"],
+        "on_error": ["活动大厅跳过当前活动"]
+    },
+    "活动大厅第三个活动提醒": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": { "template": "黄点.png", "roi": [23, 290, 43, 85], "threshold": 0.8 }
+        },
+        "action": { "type": "Click" },
+        "focus": { "Node.Action.Succeeded": "查看第三个可见活动的奖励提醒" },
+        "max_hit": 1,
+        "post_delay": 1500,
+        "timeout": 3500,
+        "next": ["活动大厅可领奖确认"],
+        "on_error": ["活动大厅跳过当前活动"]
+    },
+    "活动大厅第四个活动提醒": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": { "template": "黄点.png", "roi": [23, 380, 43, 85], "threshold": 0.8 }
+        },
+        "action": { "type": "Click" },
+        "focus": { "Node.Action.Succeeded": "查看第四个可见活动的奖励提醒" },
+        "max_hit": 1,
+        "post_delay": 1500,
+        "timeout": 3500,
+        "next": ["活动大厅可领奖确认"],
+        "on_error": ["活动大厅跳过当前活动"]
+    },
+    "活动大厅第五个活动提醒": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": { "template": "黄点.png", "roi": [23, 470, 43, 85], "threshold": 0.8 }
+        },
+        "action": { "type": "Click" },
+        "focus": { "Node.Action.Succeeded": "查看第五个可见活动的奖励提醒" },
+        "max_hit": 1,
+        "post_delay": 1500,
+        "timeout": 3500,
+        "next": ["活动大厅可领奖确认"],
+        "on_error": ["活动大厅跳过当前活动"]
+    },
+    "活动大厅第六个活动提醒": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": { "template": "黄点.png", "roi": [23, 560, 43, 85], "threshold": 0.8 }
+        },
+        "action": { "type": "Click" },
+        "focus": { "Node.Action.Succeeded": "查看第六个可见活动的奖励提醒" },
+        "max_hit": 1,
+        "post_delay": 1500,
+        "timeout": 3500,
+        "next": ["活动大厅可领奖确认"],
+        "on_error": ["活动大厅跳过当前活动"]
+    },
+    "活动大厅第七个活动提醒": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": { "template": "黄点.png", "roi": [23, 650, 43, 70], "threshold": 0.8 }
+        },
+        "action": { "type": "Click" },
+        "focus": { "Node.Action.Succeeded": "查看第七个可见活动的奖励提醒" },
+        "max_hit": 1,
+        "post_delay": 1500,
+        "timeout": 3500,
+        "next": ["活动大厅可领奖确认"],
+        "on_error": ["活动大厅跳过当前活动"]
+    },
+    "活动大厅可领奖确认": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "有奖励可领取",
+                "roi": [640, 615, 340, 90]
+            }
+        },
+        "action": { "type": "DoNothing" },
+        "timeout": 3500,
+        "next": [
+            "活动大厅点击一键领取"
+        ],
+        "on_error": [
+            "活动大厅跳过当前活动"
+        ]
+    },
+    "活动大厅点击一键领取": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "^[一]?键领取$",
+                "roi": [1000, 610, 245, 95]
+            }
+        },
+        "action": { "type": "Click" },
+        "focus": {
+            "Node.Action.Succeeded": "领取当前活动已完成的奖励"
+        },
+        "max_hit": 7,
+        "timeout": 6000,
+        "next": [
+            "活动大厅获得物资"
+        ],
+        "on_error": [
+            "活动大厅领奖结果未确认"
+        ]
+    },
+    "活动大厅获得物资": {
+        "recognition": {
+            "type": "OCR",
+            "param": { "expected": "获得物资" }
+        },
+        "action": {
+            "type": "Click",
+            "param": { "target": [1208, 366, 1, 1] }
+        },
+        "focus": {
+            "Node.Action.Succeeded": "关闭活动奖励物资弹窗并复查其他活动"
+        },
+        "max_hit": 7,
+        "post_wait_freezes": 500,
+        "timeout": 6000,
+        "next": [
+            "活动大厅页面确认"
+        ],
+        "on_error": [
+            "活动大厅领奖结果未确认"
+        ]
+    },
+    "活动大厅跳过当前活动": {
+        "action": { "type": "DoNothing" },
+        "focus": {
+            "Node.Recognition.Succeeded": "本页未确认可领取奖励，继续检查其他可见活动"
+        },
+        "timeout": 3500,
+        "next": [
+            "活动大厅检查可见活动"
+        ],
+        "on_error": [
+            "活动大厅检查未确认"
+        ]
+    },
+    "活动大厅领奖结果未确认": {
+        "action": { "type": "DoNothing" },
+        "focus": {
+            "Node.Recognition.Succeeded": "活动领奖结果未确认，停止领取并尝试返回主页"
+        },
+        "timeout": 6000,
+        "next": [
+            "活动大厅返回主页"
+        ],
+        "on_error": [
+            "活动大厅检查未确认"
+        ]
+    },
+    "活动大厅返回主页": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": "主菜单.png",
+                "roi": [11, 6, 320, 79],
+                "threshold": 0.85
+            }
+        },
+        "action": { "type": "Click" },
+        "focus": {
+            "Node.Action.Succeeded": "返回主页复查活动大厅提醒"
+        },
+        "max_hit": 1,
+        "post_wait_freezes": 500,
+        "timeout": 6000,
+        "next": [
+            "活动大厅返回主页确认"
+        ],
+        "on_error": [
+            "活动大厅检查未确认"
+        ]
+    },
+    "活动大厅返回主页确认": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "活动大厅",
+                "roi": [40, 150, 140, 120]
+            }
+        },
+        "action": { "type": "DoNothing" },
+        "timeout": 3500,
+        "next": [
+            "活动大厅仍有黄点",
+            "活动大厅黄点已清空"
+        ],
+        "on_error": [
+            "活动大厅检查未确认"
+        ]
+    },
+    "活动大厅仍有黄点": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": "黄点.png",
+                "roi": [140, 150, 40, 40],
+                "threshold": 0.85
+            }
+        },
+        "action": { "type": "DoNothing" },
+        "focus": {
+            "Node.Recognition.Succeeded": "活动大厅仍有提醒，未处理内容已保留供核对"
+        }
+    },
+    "活动大厅黄点已清空": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": "黄点.png",
+                "roi": [140, 150, 40, 40],
+                "threshold": 0.85
+            }
+        },
+        "inverse": true,
+        "action": { "type": "DoNothing" },
+        "focus": {
+            "Node.Recognition.Succeeded": "返回后已未检测到活动大厅黄点提醒"
+        }
+    },
+    "活动大厅检查未确认": {
+        "action": { "type": "DoNothing" },
+        "focus": {
+            "Node.Recognition.Succeeded": "活动大厅检查未确认，保留提醒并交回原任务"
+        }
+    }
+}
