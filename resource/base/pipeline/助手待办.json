@@ -263,7 +263,7 @@
         "recognition": {
             "type": "TemplateMatch",
             "param": {
-                "template": "主菜单.png",
+                "template": "返回按钮.png",
                 "roi": [11, 6, 320, 79],
                 "threshold": 0.85
             }
@@ -274,7 +274,13 @@
         "focus": {
             "Node.Action.Succeeded": "返回主页复查助手待办"
         },
-        "post_wait_freezes": 500,
+        "post_wait_freezes": {
+            "time": 500,
+            "rate_limit": 300,
+            "target": [950, 125, 330, 590],
+            "timeout": 6000
+        },
+        "post_delay": 1000,
         "max_hit": 16
     },
     "助手待办监管事件": {
