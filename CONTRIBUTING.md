@@ -30,9 +30,12 @@
     git clone https://github.com/<你的账号>/MBCCtools.git
     ```
 
+    本分支的开发仓库为 `murongshan/MBCCtools`，当前默认分支为 `dev/mumu-cn-foundation`；上游为 `quietlysnow/MBCCtools` 的 `main`。本分支功能和验收边界见 [开发状态](docs/开发状态.md)。
+
 2. 下载最新的 [MBCCtools 发布包](https://github.com/quietlysnow/MBCCtools/releases)，解压到你的本地文件夹。
-3. 用仓库里的 `resource/` 覆盖你的本地文件夹里的 `resource/`，确保跑的是仓库里的最新改动，而不是发布包里那份发行版资源。
-    - `interface.json` 保留发布包自带的：它的 `agent.child_exec` 指向包内便携 Python，直接换成仓库那份会让 agent 找不到解释器。
+3. 将仓库里的 `resource/` 同步到独立的本地运行目录，核对上游已删除的 overlay 也已清除，避免只覆盖文件留下旧节点。运行目录中的个人布局 `resource/mfa_layout.json` 由 GUI 管理。
+    - 仅修改 Pipeline 时可保留运行目录的 `interface.json`。若任务或选项有改动，需同步源码中的接口定义，同时保留运行目录原有的 `agent.child_exec` 和其他已部署的 Agent 启动参数；发布包的解释器路径通常为 `./agent/python/python.exe`，不要直接换成裸 `python`。
+    - 修改 `agent/` 后也要同步相应脚本。个人 `config/`、日志和游戏截图不随源码覆盖或提交。
 4. 运行 `MFAAvalonia.exe`，连接模拟器，开始任务。
 5. 修改仓库里的 `resource/*/pipeline/*.json`，同步到你的本地文件夹后**重启 MFAAvalonia** 再跑任务（资源在启动/首次连接时加载，热改不生效）。
 
@@ -43,9 +46,32 @@ python tools/recognition_probe.py 截图.png 密盟兑换/数量减号.png --roi
 python tools/recognition_probe.py 截图.png --ocr "获得物资"
 ```
 
-它会打印命中框与得分最高的几条结果（OCR 模式打印识别文本），需要 Pillow 或 opencv-python 之一。
+先在独立的开发虚拟环境中安装依赖：
+
+```bash
+python -m venv .scratch/venv
+# Windows 激活命令；macOS/Linux 使用 source .scratch/venv/bin/activate
+.scratch/venv/Scripts/activate
+python -m pip install -r requirements-dev.txt
+```
+
+`requirements-dev.txt` 在运行依赖之外增加 Pillow，仅供离线读图；发布 Agent 继续只安装 `requirements.txt`。已有 opencv-python 时，工具也可用它读图。
+
+工具默认按脚本位置定位仓库资源，从其他工作目录以绝对路径调用也可以；相对截图路径相对于当前工作目录。截图须按项目坐标基准准备为 1280×720，工具不会自动缩放，尺寸不同只打印提示。ROI 使用 `x,y,w,h`，默认 `0,0,0,0` 为全屏。
+
+文本模式打印命中框和得分最高的几条结果；OCR 模式同时打印文本。需要程序读取结果时使用 `--json`：
+
+```bash
+python tools/recognition_probe.py 截图.png 黄点.png --roi 140,150,40,40 --threshold 0.85 --json
+```
+
+退出码 **0 表示识别已完成，包含正常未命中**；判断命中请读 JSON 的 `hit`。退出码 1 表示截图、模板、资源或框架运行错误；退出码 2 表示参数错误。阈值须在 0–1 之间，ROI 须在截图内。模板路径相对资源包的 `image/`，模板不存在会报错。
+
+工具只调用 MaaFW 识别接口，控制器提供静态图片并拒绝点击、滑动、启动或停止应用，不连接模拟器。日志写入被忽略的 `.scratch/recognition-probe/`，截图与完整识别输出保留在本地，公开提交前检查账户信息。
 
 测差异包时加 `--overlay global` 或 `--overlay bilibili`。
+
+测试另一份运行资源时指定 `--resource-root /path/to/runtime/resource`，无需改脚本。它只加载资源，不会运行任务；离线命中不能替代实机流程和奖励到账验收。
 
 提交时改的是你 clone 的仓库，不是发布包里的副本。建议固定「仓库改 → 拷到你的本地文件夹 → 验证」这个方向，避免两边分叉。
 
@@ -94,7 +120,7 @@ deps/
 └─ share/MaaAgentBinary/
 ```
 
-缺了会报 `Please download the MaaFramework to "deps" first.`。平台对应的压缩包（版本用最新即可）：
+缺了会报 `Please download the MaaFramework to "deps" first.`。平台对应的压缩包应与已验证的 GUI 原生库保持一致（当前为 MaaFramework 5.12.3），不要直接改用最新版本：
 
 | 平台 | 压缩包 |
 | --- | --- |
@@ -170,10 +196,12 @@ python ./install.py v0.0.0-test
 # 1) pipeline JSON 语法（不允许注释）
 python -c "import json,pathlib;[json.loads(p.read_text(encoding='utf-8')) for b in ('base','bilibili','global') for p in pathlib.Path('resource',b,'pipeline').rglob('*.json')]"
 
-# 2) 资源包能被框架加载（差异包是 overlay，单独加载会失败，属正常）
+# 2) 检查引用和三服资源加载（不会连接设备或执行任务）
 pip install -r requirements.txt
-python check_resource.py resource/base
+python tools/检查资源.py
 ```
+
+检查器使用已安装 MaaFw 的原生库；若要对齐 GUI，可加 `--native-library-root /path/to/runtime/runtimes/win-x64/native`。检查结果写入本地 `.scratch/resource-check/`。差异包须叠加在 base 后加载；本检查器会依次验证三种组合。
 
 人工再确认：
 
@@ -183,7 +211,7 @@ python check_resource.py resource/base
 
 ## 9. 提交 PR
 
-- 从 `main` 切功能分支，一个 PR 只做一件事；改共享节点时说明对 B服 / 国际服的影响。
+- 向本分支贡献时从 `dev/mumu-cn-foundation` 切功能分支；向上游贡献时从最新 `upstream/main` 切独立分支，一个 PR 只做一件事，避免把本分支全部功能混入上游 PR。改共享节点时说明对 B服 / 国际服的影响。
 - Commit message 沿用仓库现状：`fix(体力): …`、`feat(密盟兑换): …`、`docs: …`，scope 用中文模块名。
 - 不需要改 `interface.json` 的 `version`，也不要动 `resource/Release.md`、`resource/Changelog.md` 与公告 —— 这些在发版时由维护者统一处理。
 - 不要提交 `record/`、`install/`、`deps/`、`debug/`、`logs/`、`resource/mfa_layout.json` 等运行时产物（`.gitignore` 已覆盖，提交前 `git status` 看一眼）。
