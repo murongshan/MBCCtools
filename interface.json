@@ -3,10 +3,8 @@
   "name": "MBCCtools",
   "title": "MBCCtools",
   "icon": "resource/base/image/logo.ico",
-  "version": "v1.5.2",
-  "mirrorchyan_rid": "MBCCtools",
-  "mirrorchyan_multiplatform": true,
-  "url": "https://github.com/quietlysnow/MBCCtools",
+  "version": "v1.6.0",
+  "url": "https://github.com/murongshan/MBCCtools",
   "controller": [
     {
       "name": "安卓端",
@@ -768,5 +766,5 @@
       "description": "- 每种勾选的物资会按该物资的**本月限购**一次买满：打开物资详情 → 购买数量拉到上限 → 购买\n- 不勾选任何物资时任务会立刻收尾（不会误买）\n- 换满配额的物资会显示「已售罄」并沉到列表后方，任务自动收尾\n- 在**兑换档位**勾选的档位里找该物资，某档没有就跳过；同一物资三档限购互相独立，三档都勾就会各换一份\n- 功绩点不够买满时该物资会被跳过，其他物资照常兑换"
     }
   },
-  "github": "https://github.com/quietlysnow/MBCCtools"
+  "github": "https://github.com/murongshan/MBCCtools"
 }

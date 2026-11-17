@@ -45,6 +45,8 @@ def install_resource():
         working_dir / "resource",
         install_path / "resource",
         dirs_exist_ok=True,
+        # 活动大厅领奖仍是未接入的草稿，mfa_layout 是 GUI 生成的本地布局，都不进发布包。
+        ignore=shutil.ignore_patterns("活动大厅领奖.json", "mfa_layout.json"),
     )
     shutil.copy2(
         working_dir / "interface.json",

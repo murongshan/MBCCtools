@@ -32,7 +32,7 @@
 
     本分支的开发仓库为 `murongshan/MBCCtools`，当前默认分支为 `dev/mumu-cn-foundation`；上游为 `quietlysnow/MBCCtools` 的 `main`。本分支功能和验收边界见 [开发状态](docs/开发状态.md)。
 
-2. 下载最新的 [MBCCtools 发布包](https://github.com/quietlysnow/MBCCtools/releases)，解压到你的本地文件夹。
+2. 下载最新的 [MBCCtools 发布包](https://github.com/murongshan/MBCCtools/releases)，解压到你的本地文件夹。
 3. 将仓库里的 `resource/` 同步到独立的本地运行目录，核对上游已删除的 overlay 也已清除，避免只覆盖文件留下旧节点。运行目录中的个人布局 `resource/mfa_layout.json` 由 GUI 管理。
     - 仅修改 Pipeline 时可保留运行目录的 `interface.json`。若任务或选项有改动，需同步源码中的接口定义，同时保留运行目录原有的 `agent.child_exec` 和其他已部署的 Agent 启动参数；发布包的解释器路径通常为 `./agent/python/python.exe`，不要直接换成裸 `python`。
     - 修改 `agent/` 后也要同步相应脚本。个人 `config/`、日志和游戏截图不随源码覆盖或提交。

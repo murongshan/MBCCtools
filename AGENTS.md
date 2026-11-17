@@ -250,7 +250,7 @@ resource/
 
 ## 6. `interface.json` 规则
 
-- 结构（实测字段清单，2026-10-13）：`interface_version/name/title/icon/version/mirrorchyan_rid/mirrorchyan_multiplatform/url/controller/resource/agent/task/option/github`。
+- 结构（实测字段清单，2026-11-17）：`interface_version/name/title/icon/version/url/controller/resource/agent/task/option/github`。本 fork 已移除 `mirrorchyan_rid` / `mirrorchyan_multiplatform`，`url`/`github` 指向 `murongshan/MBCCtools`；不要再把更新来源改回上游。
 - `controller` 只有一个 Adb（`"安卓端"`）；`agent` 段已按 §2.3 落地。不要凭空添加 `custom`/`account`/`preset`；其他顶层扩展先与用户对齐。
 - 15 个 `task`，每项 `{name, entry, option?, doc?}`；`entry` 必须能在（合并后的）pipeline 中找到顶层节点。
 - option 组现有 8 个：`作战区域`/`畸点选择`/`派遣区域`/`材料选择`/`关卡未开放备选`/`识别方式`/`兑换档位`/`兑换物资`。
