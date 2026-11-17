@@ -73,7 +73,7 @@ jobs:
             agent_platform: macos-x64
           - os: macos
             arch: aarch64
-            runner: macos-latest
+            runner: macos-15
             agent_platform: macos-arm64
       fail-fast: false
     runs-on: ${{ matrix.runner }}
