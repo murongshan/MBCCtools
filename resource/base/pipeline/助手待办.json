@@ -3,6 +3,7 @@
         "timeout": 8000,
         "next": [
             "助手待办准备面板",
+            "[JumpBack]助手入口恢复主页",
             "[JumpBack]打开助手模式",
             "[JumpBack]助手待办返回主页"
         ]
@@ -63,7 +64,10 @@
         },
         "timeout": 6000,
         "next": [
+            "浮层暂缓监察奖励",
+            "浮层前往并分派",
             "助手待办无优先事项计数",
+            "助手待办收到新邮件",
             "助手待办体力专属补给",
             "助手待办监管物资",
             "助手待办免费礼包",
@@ -73,12 +77,76 @@
             "助手待办记忆风暴",
             "助手待办秘盟捐赠",
             "助手待办浊暗之阱",
+            "助手待办成就未领取",
             "助手待办纵向查找",
             "助手待办清体力",
             "助手待办每日活跃",
             "助手待办仍有提醒",
             "助手待办检查结束"
         ]
+    },
+    "助手待办收到新邮件": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "收到新邮件",
+                "roi": [950, 210, 280, 380]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "focus": {
+            "Node.Action.Succeeded": "从助手进入邮箱"
+        },
+        "max_hit": 3,
+        "post_delay": 1500,
+        "timeout": 8000,
+        "next": [
+            "[JumpBack]助手待办执行邮箱",
+            "助手待办返回面板"
+        ]
+    },
+    "助手待办执行邮箱": {
+        "max_hit": 1,
+        "next": ["邮箱"]
+    },
+    "助手待办关闭快捷浮层": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "^前往$",
+                "roi": [1110, 120, 140, 65]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [870, 104, 1, 1]
+            }
+        },
+        "focus": {
+            "Node.Action.Succeeded": "关闭助手快捷浮层，复查待办列表"
+        },
+        "max_hit": 8,
+        "post_delay": 500
+    },
+    "助手待办快捷浮层前往": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "^前往$",
+                "roi": [1110, 120, 140, 65]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "focus": {
+            "Node.Action.Succeeded": "点击助手快捷浮层前往，复查当前事务页面"
+        },
+        "max_hit": 16,
+        "post_delay": 1000
     },
     "助手待办记忆风暴": {
         "recognition": {
@@ -104,12 +172,17 @@
     "助手待办执行记忆风暴": {
         "max_hit": 1,
         "next": [
+            "浮层前往并分派",
             "记忆风暴"
         ]
     },
     "助手待办返回面板": {
-        "timeout": 8000,
+        "timeout": 30000,
         "next": [
+            "[JumpBack]关闭界面",
+            "[JumpBack]密盟签到",
+            "浮层暂缓监察奖励",
+            "浮层前往并分派",
             "助手待办面板",
             "[JumpBack]打开助手模式",
             "[JumpBack]助手待办返回主页"
@@ -141,6 +214,7 @@
         "next": [
             "[JumpBack]密盟签到",
             "[JumpBack]关闭界面",
+            "浮层前往并分派",
             "助手待办捐赠次数已用完",
             "助手待办核对狄斯币",
             "助手待办秘盟大厅"
@@ -308,6 +382,7 @@
         "max_hit": 1,
         "timeout": 8000,
         "next": [
+            "浮层前往并分派",
             "监管终端",
             "开始按钮"
         ]
@@ -362,6 +437,7 @@
         "max_hit": 1,
         "timeout": 8000,
         "next": [
+            "浮层前往并分派",
             "浊暗之阱关卡列表",
             "浊暗之阱异常模式返回"
         ]
@@ -391,6 +467,7 @@
         "max_hit": 1,
         "timeout": 8000,
         "next": [
+            "浮层前往并分派",
             "每日奖励"
         ]
     },
@@ -407,7 +484,9 @@
         },
         "focus": {
             "Node.Recognition.Succeeded": "助手仍有待办，请核对剩余条目；本轮不重复执行"
-        }
+        },
+        "timeout": 1500,
+        "next": ["助手待办未完成停止"]
     },
     "助手待办无优先事项计数": {
         "recognition": {
@@ -440,16 +519,23 @@
             "type": "DoNothing"
         },
         "next": [
-            "助手待办清体力",
-            "助手待办日常完成"
+            "助手待办日常完成",
+            "助手待办清体力"
         ]
     },
     "助手待办日常完成": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "^([0-9]|[12][0-9])/[0-9]+$",
+                "roi": [1130, 10, 145, 50]
+            }
+        },
         "action": {
             "type": "DoNothing"
         },
         "focus": {
-            "Node.Recognition.Succeeded": "日常优先事项已清空，助手现显示长期任务"
+            "Node.Recognition.Succeeded": "体力低于30，助手仅剩长期任务"
         }
     },
     "助手待办检查结束": {
@@ -465,6 +551,87 @@
         },
         "focus": {
             "Node.Recognition.Succeeded": "助手检查结束，请核对面板；未识别的条目不视为完成"
+        },
+        "timeout": 1500,
+        "next": ["助手待办未完成停止"]
+    },
+    "助手待办未完成停止": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "^__需人工核查__$",
+                "roi": [0, 0, 1, 1]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
         }
+    },
+    "助手待办成就未领取": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "有成就完成.*可前往领奖|成就未领取",
+                "roi": [950,210,280,380]
+            }
+        },
+        "action": {"type": "Click"},
+        "focus": {
+            "Node.Action.Succeeded": "从助手进入成就"
+        },
+        "max_hit": 1,
+        "timeout": 8000,
+        "next": ["助手待办确认成就页"],
+        "on_error": ["助手待办返回面板"]
+    },
+    "助手待办确认成就页": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "^成就总览$",
+                "roi": [0,90,200,110]
+            }
+        },
+        "timeout": 6000,
+        "next": ["助手待办一键领取成就"],
+        "on_error": ["助手待办返回面板"]
+    },
+    "助手待办一键领取成就": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "^一?键领取$",
+                "roi": [1010,540,220,90]
+            }
+        },
+        "action": {"type": "Click"},
+        "focus": {
+            "Node.Action.Succeeded": "一键领取成就奖励"
+        },
+        "max_hit": 1,
+        "post_wait_freezes": 1000,
+        "next": ["助手待办收起成就物资", "助手待办返回面板"]
+    },
+    "助手待办收起成就物资": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "^获得物资$",
+                "roi": [490,85,300,105]
+            }
+        },
+        "action": {"type": "Click"},
+        "focus": {
+            "Node.Action.Succeeded": "收起成就奖励弹窗"
+        },
+        "max_hit": 1,
+        "post_wait_freezes": 1000,
+        "next": ["助手待办返回面板"]
+    },
+    "助手入口恢复主页": {
+        "max_hit": 1,
+        "next": [
+            "启动恢复主页"
+        ]
     }
 }

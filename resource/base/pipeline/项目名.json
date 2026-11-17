@@ -442,6 +442,7 @@
         "focus": {
             "Node.Recognition.Succeeded": "切换到狄斯"
         },
+        "max_hit": 2,
         "post_delay": 3000,
         "post_wait_freezes": 500
     },
@@ -515,8 +516,8 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "expected": "助手模式",
-                "roi": [1060, 625, 220, 95]
+                "expected": ["助手模式", "助模式"],
+                "roi": [1100, 630, 170, 85]
             }
         },
         "action": {
@@ -526,15 +527,15 @@
         "max_hit": 16,
         "next": [
             "助手面板已打开",
-            "点击助手模式"
+            "助手主页图标确认"
         ]
     },
     "点击助手模式": {
         "recognition": {
             "type": "OCR",
             "param": {
-                "expected": "助手模式",
-                "roi": [1060, 625, 220, 95]
+                "expected": ["助手模式", "助模式"],
+                "roi": [1100, 630, 170, 85]
             }
         },
         "action": {
@@ -585,6 +586,164 @@
         "focus": {
             "Node.Action.Succeeded": "通用关闭弹窗"
         },
+        "post_wait_freezes": 500
+    },
+    "恢复主页图标确认": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": ["首页2.png", "首页2新背景.png"],
+                "roi": [250,450,140,170],
+                "threshold": 0.9,
+                "method": 10001
+            }
+        },
+        "timeout": 3000,
+        "max_hit": 4,
+        "next": [
+            "恢复主页管理局确认"
+        ]
+    },
+    "恢复主页管理局确认": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "^管理局$",
+                "roi": [1100,260,180,100]
+            }
+        },
+        "timeout": 3000,
+        "next": [
+            "恢复主页助手确认"
+        ]
+    },
+    "恢复主页助手确认": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "助手模式|助模式",
+                "roi": [1100,630,170,85]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        }
+    },
+    "助手主页图标确认": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": ["首页2.png", "首页2新背景.png"],
+                "roi": [250,450,140,170],
+                "threshold": 0.9,
+                "method": 10001
+            }
+        },
+        "timeout": 3000,
+        "next": [
+            "助手主页管理局确认"
+        ]
+    },
+    "助手主页管理局确认": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "^管理局$",
+                "roi": [1100,260,180,100]
+            }
+        },
+        "timeout": 3000,
+        "next": [
+            "点击助手模式"
+        ]
+    },
+    "未知弹窗领取": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "^\\s*领取\\s*$",
+                "roi": [250,200,800,490]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "max_hit": 3,
+        "post_delay": 1000,
+        "focus": {
+            "Node.Action.Succeeded": "领取弹窗奖励"
+        }
+    },
+    "未知弹窗关闭": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": [
+                    "弹窗关闭按钮.png",
+                    "关闭按钮.png",
+                    "更新推广关闭.png"
+                ],
+                "roi": [700,0,580,350],
+                "threshold": 0.85,
+                "method": 5
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "max_hit": 3,
+        "post_delay": 1000,
+        "focus": {
+            "Node.Action.Succeeded": "关闭未知弹窗"
+        }
+    },
+    "未知弹窗右上角": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [1235,35,1,1]
+            }
+        },
+        "max_hit": 2,
+        "post_delay": 1000,
+        "focus": {
+            "Node.Action.Succeeded": "尝试从右上角关闭未知页面"
+        }
+    },
+    "启动恢复主页": {
+        "timeout": 8000,
+        "max_hit": 12,
+        "next": [
+            "[JumpBack]关闭储备体力弹窗",
+            "[JumpBack]情绪检测完成",
+            "[JumpBack]情绪检测正文",
+            "[JumpBack]情绪检测",
+            "[JumpBack]局长生日礼物",
+            "[JumpBack]局长生日礼物展示",
+            "[JumpBack]局长生日贺信",
+            "[JumpBack]关闭界面",
+            "[JumpBack]禁闭者生日",
+            "[JumpBack]月卡提示 - 取消",
+            "[JumpBack]月卡",
+            "[JumpBack]管理局活动月卡",
+            "[JumpBack]今日补给",
+            "恢复主页图标确认",
+            "[JumpBack]未知弹窗领取",
+            "[JumpBack]未知弹窗关闭",
+            "[JumpBack]未知弹窗右上角"
+        ]
+    },
+    "关闭储备体力弹窗": {
+        "recognition": {
+            "type": "OCR",
+            "param": {"expected": "^使用储备体力$", "roi": [150,100,220,65]}
+        },
+        "action": {"type": "Click", "param": {"target": [22,20,1,1]}},
+        "focus": {"Node.Action.Succeeded": "关闭储备体力弹窗"},
+        "max_hit": 2,
         "post_wait_freezes": 500
     }
 }

@@ -98,7 +98,10 @@
             }
         },
         "action": {
-            "type": "Click"
+            "type": "Click",
+            "param": {
+                "target_offset": [55,57,-110,-114]
+            }
         },
         "focus": {
             "Node.Action.Succeeded": "开始按钮"
@@ -108,8 +111,10 @@
             "[JumpBack]检查选项"
         ],
         "on_error": [
+            "开始按钮",
             "监管终端"
         ],
+        "max_hit": 2,
         "timeout": 4000,
         "post_wait_freezes": 2000
     },

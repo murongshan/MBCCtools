@@ -28,7 +28,8 @@
         },
         "next": [
             "领取友情点",
-            "友情点已领满"
+            "友情点已领满",
+            "友情点当前无可领取"
         ],
         "post_wait_freezes": 300
     },
@@ -62,7 +63,8 @@
         "post_delay": 2000,
         "next": [
             "赠送友情点",
-            "友情点已领满"
+            "友情点已领满",
+            "友情点当前无可领取"
         ]
     },
     "赠送友情点": {
@@ -120,16 +122,36 @@
     },
     "友情点无待赠提示": {
         "recognition": {
-            "type": "DirectHit"
+            "type": "OCR",
+            "param": {
+                "expected": "^一?键赠送$",
+                "roi": [1050, 590, 200, 70]
+            }
         },
         "action": {
             "type": "DoNothing"
         },
         "focus": {
-            "Node.Recognition.Succeeded": "友情点已领满，未识别到待赠提示，跳过赠送"
+            "Node.Recognition.Succeeded": "已确认好友页领取状态及赠送按钮，未识别到待赠提示"
         },
         "next": [
             "主菜单"
+        ]
+    },
+    "友情点当前无可领取": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "^(?:今日|日)?已领取[（(](?:100|[0-9]{1,2})/100[）)]$",
+                "roi": [815, 581, 445, 98]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "赠送友情点",
+            "友情点无待赠提示"
         ]
     }
 }

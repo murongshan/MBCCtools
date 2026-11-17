@@ -1,0 +1,366 @@
+{
+    "浮层目标每日奖励": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "监察任务",
+                "roi": [
+                    190,
+                    635,
+                    245,
+                    80
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "max_hit": 1,
+        "timeout": 8000,
+        "next": [
+            "助手待办返回面板"
+        ]
+    },
+    "浮层目标友情点领取": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "^有可领取友情点$",
+                "roi": [
+                    867,
+                    581,
+                    393,
+                    98
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "max_hit": 1,
+        "timeout": 8000,
+        "next": [
+            "[JumpBack]领取友情点",
+            "助手待办返回面板"
+        ]
+    },
+    "浮层目标友情点领满": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "^已领取\\(100/100\\)$",
+                "roi": [
+                    867,
+                    581,
+                    393,
+                    98
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "max_hit": 1,
+        "timeout": 8000,
+        "next": [
+            "[JumpBack]友情点已领满",
+            "助手待办返回面板"
+        ]
+    },
+    "浮层目标友情点无领取": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "^(?:今日|日)?已领取[（(](?:100|[0-9]{1,2})/100[）)]$",
+                "roi": [
+                    815,
+                    581,
+                    445,
+                    98
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "max_hit": 1,
+        "timeout": 8000,
+        "next": [
+            "[JumpBack]友情点当前无可领取",
+            "助手待办返回面板"
+        ]
+    },
+    "浮层目标免费礼包": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "精选礼包",
+                "roi": [
+                    50,
+                    250,
+                    220,
+                    70
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "max_hit": 1,
+        "timeout": 8000,
+        "next": [
+            "[JumpBack]精选礼包",
+            "助手待办返回面板"
+        ]
+    },
+    "浮层目标派遣区域": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "每日任务",
+                "roi": [
+                    66,
+                    641,
+                    1159,
+                    65
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "max_hit": 1,
+        "timeout": 8000,
+        "next": [
+            "[JumpBack]派遣区域选择",
+            "助手待办返回面板"
+        ]
+    },
+    "浮层目标监管终端": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": "监管终端.png",
+                "roi": [
+                    21,
+                    85,
+                    209,
+                    294
+                ],
+                "threshold": 0.9
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "max_hit": 1,
+        "timeout": 8000,
+        "next": [
+            "[JumpBack]监管终端",
+            "助手待办返回面板"
+        ]
+    },
+    "浮层目标记忆风暴": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "印象畸点",
+                "roi": [
+                    25,
+                    112,
+                    293,
+                    349
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "max_hit": 1,
+        "timeout": 8000,
+        "next": [
+            "[JumpBack]记忆风暴优先选择",
+            "助手待办返回面板"
+        ]
+    },
+    "浮层目标秘盟捐赠": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "^狄斯币$",
+                "roi": [
+                    180,
+                    125,
+                    160,
+                    65
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "max_hit": 1,
+        "timeout": 8000,
+        "next": [
+            "助手待办秘盟准备"
+        ]
+    },
+    "浮层目标浊暗关卡": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "乐园幻境",
+                    "深度"
+                ],
+                "roi": [
+                    1000,
+                    480,
+                    280,
+                    140
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "max_hit": 1,
+        "timeout": 8000,
+        "next": [
+            "[JumpBack]浊暗之阱关卡列表",
+            "助手待办返回面板"
+        ]
+    },
+    "浮层目标浊暗返回": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "浊暗之阱"
+                ],
+                "roi": [
+                    540,
+                    615,
+                    220,
+                    60
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "max_hit": 1,
+        "timeout": 8000,
+        "next": [
+            "[JumpBack]浊暗之阱异常模式返回",
+            "助手待办返回面板"
+        ]
+    },
+    "浮层点击无反应": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "^前往$",
+                "roi": [
+                    1110,
+                    120,
+                    140,
+                    65
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    870,
+                    104,
+                    1,
+                    1
+                ]
+            }
+        },
+        "max_hit": 3,
+        "post_delay": 500,
+        "next": [
+            "助手待办返回面板"
+        ]
+    },
+    "浮层目标分派": {
+        "action": {
+            "type": "DoNothing"
+        },
+        "timeout": 15000,
+        "next": [
+            "[JumpBack]关闭界面",
+            "[JumpBack]密盟签到",
+            "浮层目标每日奖励",
+            "浮层目标友情点领取",
+            "浮层目标友情点领满",
+            "浮层目标友情点无领取",
+            "浮层目标免费礼包",
+            "浮层目标派遣区域",
+            "浮层目标监管终端",
+            "浮层目标记忆风暴",
+            "浮层目标秘盟捐赠",
+            "浮层目标浊暗关卡",
+            "浮层目标浊暗返回",
+            "浮层点击无反应"
+        ],
+        "on_error": [
+            "助手待办返回面板"
+        ]
+    },
+    "浮层前往并分派": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "^前往$",
+                "roi": [
+                    1110,
+                    120,
+                    140,
+                    65
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 1500,
+        "max_hit": 16,
+        "next": [
+            "浮层目标分派"
+        ]
+    },
+    "浮层暂缓监察奖励": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "监察任务.*每日",
+                "roi": [
+                    875,
+                    115,
+                    235,
+                    70
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    870,
+                    104,
+                    1,
+                    1
+                ]
+            }
+        },
+        "post_delay": 500,
+        "max_hit": 16,
+        "next": [
+            "助手待办返回面板"
+        ]
+    }
+}

@@ -59,18 +59,95 @@
         ]
     },
     "登录后处理": {
-        "timeout": 15000,
+        "timeout": 60000,
         "next": [
-            "[JumpBack]情绪检测",
-            "[JumpBack]禁闭者生日",
-            "[JumpBack]月卡提示 - 取消",
-            "[JumpBack]月卡",
-            "[JumpBack]管理局活动月卡",
-            "[JumpBack]今日补给",
-            "[JumpBack]一般弹窗",
-            "[JumpBack]通用关闭弹窗",
-            "首页"
+            "启动恢复主页"
         ]
+    },
+    "局长生日礼物": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": ["局长生日礼物.png", "局长生日礼物摆动.png"],
+                "roi": [460, 290, 360, 360],
+                "threshold": 0.8
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "max_hit": 3,
+        "post_delay": 1500,
+        "focus": {
+            "Node.Action.Succeeded": "打开局长生日礼物"
+        }
+    },
+    "局长生日礼物展示": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": "局长生日礼物展示.png",
+                "roi": [450, 280, 380, 300],
+                "threshold": 0.8
+            }
+        },
+        "action": {
+            "type": "Click"
+        },
+        "max_hit": 3,
+        "post_delay": 1500,
+        "focus": {
+            "Node.Action.Succeeded": "收起局长生日礼物展示"
+        }
+    },
+    "局长生日贺信": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "今日所有禁闭者.*服从度双倍",
+                "roi": [180, 550, 450, 130]
+            }
+        },
+        "action": {"type": "DoNothing"},
+        "timeout": 8000,
+        "next": [
+            "[JumpBack]局长生日贺礼领取",
+            "[JumpBack]关闭界面",
+            "局长生日贺信返回"
+        ]
+    },
+    "局长生日贺礼领取": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "^礼\\s*物$",
+                "roi": [980, 400, 110, 65]
+            }
+        },
+        "action": {"type": "Click"},
+        "max_hit": 1,
+        "post_delay": 1500,
+        "focus": {
+            "Node.Action.Succeeded": "领取局长生日贺礼"
+        }
+    },
+    "局长生日贺信返回": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "今日所有禁闭者.*服从度双倍",
+                "roi": [180, 550, 450, 130]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {"target": [45, 40, 1, 1]}
+        },
+        "max_hit": 1,
+        "post_delay": 1500,
+        "focus": {
+            "Node.Action.Succeeded": "退出局长生日贺信"
+        }
     },
     "情绪检测": {
         "recognition": {
@@ -557,5 +634,30 @@
             "type": "DoNothing"
         },
         "post_delay": 2000
+    },
+    "情绪检测正文": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": "系统工作中.*开始检测",
+                "roi": [550,140,490,90]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [799,484,1,1]
+            }
+        },
+        "max_hit": 3,
+        "post_delay": 1000,
+        "focus": {
+            "Node.Action.Succeeded": "回答情绪检测"
+        },
+        "timeout": 8000,
+        "next": [
+            "情绪检测完成",
+            "前往补测"
+        ]
     }
 }

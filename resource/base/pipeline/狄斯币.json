@@ -2,6 +2,8 @@
     "狄斯币": {
         "next": [
             "狄斯币入口2",
+            "[JumpBack]狄斯币进入清剿行动",
+            "[JumpBack]狄斯币切换常态记录",
             "[JumpBack]狄斯币入口",
             "[JumpBack]锈河",
             "[JumpBack]狄斯",
@@ -9,6 +11,26 @@
             "[JumpBack]危机管理",
             "[JumpBack]主菜单"
         ]
+    },
+    "狄斯币进入清剿行动": {
+        "recognition": {
+            "type": "OCR",
+            "param": {"expected": "^清剿行动$", "roi": [630,395,210,83]}
+        },
+        "action": {"type": "Click"},
+        "focus": {"Node.Action.Succeeded": "进入清剿行动"},
+        "max_hit": 2,
+        "post_wait_freezes": 500
+    },
+    "狄斯币切换常态记录": {
+        "recognition": {
+            "type": "OCR",
+            "param": {"expected": "^常态记录$", "roi": [110,630,250,85]}
+        },
+        "action": {"type": "Click"},
+        "focus": {"Node.Action.Succeeded": "切换常态记录"},
+        "max_hit": 2,
+        "post_wait_freezes": 500
     },
     "狄斯币入口": {
         "recognition": {
