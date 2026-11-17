@@ -2,6 +2,8 @@
 
 更新日期：2026-10-31。本文内容与后续优先级已经用户确认；后续计划不代表已经实施。详细历史见 [开发状态](docs/开发状态.md)，开发约定见 [贡献指南](CONTRIBUTING.md) 和 [AGENTS.md](AGENTS.md)。
 
+> 2026-11-17 补充：v1.5.2.22 已部署，并通过 2026-11-13 至 11-17 连续五个游戏日的官服日常队列；此前未提交的助手流程与素材已固化。本文其余内容仍有效，最新状态以 [开发状态](docs/开发状态.md) 为准。
+
 ## 1. 当前基线与技术栈
 
 - 开发仓库：[murongshan/MBCCtools](https://github.com/murongshan/MBCCtools)，开发分支 `dev/mumu-cn-foundation`。
