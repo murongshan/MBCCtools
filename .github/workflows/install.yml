@@ -67,16 +67,14 @@ jobs:
             arch: aarch64
             runner: windows-11-arm
             agent_platform: win-arm64
-          # v1.6.0 发布时 GitHub macOS runner 连续三次排队 15 分钟后被取消，
-          # 本次只构建 Windows；macOS 两条腿在后续版本恢复。
-          # - os: macos
-          #   arch: x86_64
-          #   runner: macos-15-intel
-          #   agent_platform: macos-x64
-          # - os: macos
-          #   arch: aarch64
-          #   runner: macos-15
-          #   agent_platform: macos-arm64
+          - os: macos
+            arch: x86_64
+            runner: macos-15-intel
+            agent_platform: macos-x64
+          - os: macos
+            arch: aarch64
+            runner: macos-15
+            agent_platform: macos-arm64
       fail-fast: false
     runs-on: ${{ matrix.runner }}
 
